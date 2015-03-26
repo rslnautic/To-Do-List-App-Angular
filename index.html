@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="toDoList">
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/todolist.css" />
+    <script type="text/javascript" src="scripts/angular.min.js"></script>
+    <script type="text/javascript" src="scripts/app.js"></script>
+  </head>
+
+  <body ng-controller="ListController as list">
+
+  	<h1 class="form-group">To-Do <small>List</small> </h1>
+	
+	<div class="container" id="formulario">
+		<form name="taskForm" role="form" ng-show="list.adding || list.updating">
+		    <div class="form-group" novalidate>
+		    	<input type="title" class="form-control" id="title" placeholder="Enter title" ng-model="list.auxtask.name" required>
+		    </div>
+		    <div class="form-group">
+		    	<textarea class="form-control" rows="3" placeholder="Describe the task here..." ng-model="list.auxtask.description"></textarea>
+		    </div>
+		    <div class="form-group" novalidate>
+		    	<input class="form-control" type="date" id="date" name="input" ng-model="list.auxtask.date" placeholder="yyyy-MM-dd" min="{{list.dateToday}}" required />
+		    </div>
+		    <div class="form-group">
+		    	<button type="submit" ng-disabled = "!taskForm.$valid" class="btn btn-primary btn-block" ng-click="taskForm.$valid; list.addTask(); list.adding = false;" ng-hide="list.updating">SAVE</button>
+		    </div>
+		    <div class="form-group">
+		    	<button type="submit" ng-disabled = "!taskForm.$valid" class="btn btn-primary btn-block" ng-click="taskForm.$valid; list.updateTask(); list.updating = false;" ng-show="list.updating">UPDATE</button>
+		    </div>
+		    <div class="form-group">
+		    	<button type="submit" class="btn btn-danger btn-block" ng-click="list.adding = false; list.updating=false; list.auxtask.hided = true;">CANCEL</button>
+		    </div>
+  		</form>
+  		<form role="form">
+  			<div class="form-group">
+  				<button type="submit" class="btn btn-primary btn-block" ng-click="list.adding = true" ng-show="!list.adding" ng-hide="list.updating" ng-show="!list.adding" ng-hide="list.updating">ADD</button>
+  			</div>
+  			<div class="form-group">
+  				<input type="text" class="form-control" placeholder="Search for..." ng-model="search.$" ng-hide="list.adding || list.updating || list.tasks.length<=2">
+  			</div>
+  		</form>
+	</div>
+	<div class="container" id="lista" ng-hide="list.adding || list.updating">
+		<ul class="list-group">
+				<li class="list-group-item" ng-repeat="task in list.tasks | filter:search | startFrom:list.currentPage*list.pageSize | limitTo:list.pageSize | orderBy:'date'">
+				<h4>
+				    <input type="checkbox" aria-label="..." ng-click="list.deleteTask($index)">
+			        {{task.name  | limitTo: 50}}
+					<em class="pull-center" ng-show="task.hided"><small>{{task.description | limitTo: 10}}</small></em>
+					<span class="pull-right glyphicon glyphicon-edit" ng-click= "list.auxtask = task; list.updating = true" ng-show="!task.hided"></span></a>
+			    </h4>
+			    <h4 ng-show="!task.hided">
+					<em class="pull-center"><small>{{task.description | limitTo: 200}}</small></em>
+			    </h4>
+			    <h5>
+			    	<small>{{task.date  | date: 'dd/MM/yyyy'}}</small>
+			    	<a href="" ng-click="task.hided=false"><span class="pull-right glyphicon glyphicon-chevron-down" ng-hide="!task.hided"></span>
+			    	<a href="" ng-click="task.hided=true"><span class="pull-right glyphicon glyphicon-chevron-up" ng-hide="task.hided"></span></a>
+			    </h5>
+			</li>
+		</ul>
+		<div class="form-group" ng-show="list.tasks.length>=list.pageSize">
+			{{list.currentPage+1}}/{{list.numberOfPages()}}
+			<button type="button" class="btn btn btn-block btn-primary" id="boton" ng-disabled="list.currentPage == 0" ng-click="list.currentPage=list.currentPage-1"><span class="glyphicon glyphicon-chevron-left"></span></button>
+			<button type="button" class="btn btn btn-block btn-primary" id="boton" ng-disabled="list.currentPage >= list.tasks.length/list.pageSize - 1" ng-click="list.currentPage=list.currentPage+1"><span class="glyphicon glyphicon-chevron-right"></span></button>
+		</div>
+	</div>
+  </body>
+</html>

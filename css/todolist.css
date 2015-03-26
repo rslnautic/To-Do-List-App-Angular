@@ -1,0 +1,53 @@
+
+.form-group {
+    text-align: center;
+    padding-bottom: 0px;
+}
+
+.form-group {
+    text-align: center;
+    padding-bottom: 0px;
+}
+
+.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}
+.ng-valid.ng-dirty {
+    border-color: #78FA89;
+}
+
+/*
+
+form {
+    margin: 0 auto;
+    display: inline-block;
+}
+.form-group {
+    text-align: center;
+    padding-bottom: 0px;
+}
+#todo {
+    margin: 0 auto;
+}
+
+#todo2 {
+    margin: 10 auto;
+}
+#boton {
+    margin: 0 auto;
+    text-align: center;
+}
+.adding {
+    text-align: center;
+    padding-bottom: 0px;
+}
+
+a.close {
+  float: right;
+}
+
+span.glyphicon-link {
+    font-size: 1.2em;
+}
+
+*/
